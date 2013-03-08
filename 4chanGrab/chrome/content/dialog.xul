@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<window title="4chan Grab"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  onload="n4cDialog();">
+  <script src="dialog.js"/>
+  <description>
+    Images found:
+  </description>
+  <listbox id="n4cListbox" rows="15" suppressionselect="true">
+  </listbox>
+  <separator orient="horizontal" class="groove"/>
+<vbox>
+    <label value="Save To Folder:"/>
+    <textbox id="n4cFolder" value="" persist="value"/>
+  </vbox>
+  <separator orient="horizontal" class="groove"/>
+  <hbox>
+    <spacer flex="1"/>
+    <button id="n4cToggle" label="Toggle" oncommand="n4cToggle();"/>
+    <button id="n4cNumber" label="Renumber" oncommand="n4cNumber();"/>
+    <button id="n4cChange" label="Folder..."
+      oncommand="n4cFolder();"/>
+    <button id="n4cSave" label="Save" oncommand="n4cSave();"/>
+    <button label="Cancel" oncommand="window.close();"/>
+  </hbox>
+  <separator orient="horizontal" class="groove"/>
+  <hbox>
+    <label value="Progress:"/>
+    <label id="n4cStatus" value=""/>
+  </hbox>
+</window>

@@ -1,0 +1,2 @@
+overlay	chrome://browser/content/browser.xul	chrome://4chanGrab/content/menu.xul
+content 4chanGrab  chrome/content/

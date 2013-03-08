@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="application/x-javascript"
+    src="chrome://4chanGrab/content/menu.js"/>
+  <popup id="contentAreaContextMenu">
+    <menuseparator hidden="true"/>
+    <menuitem label="4chan Grab"
+      accesskey="G"
+      oncommand="n4cGrab();"
+      hidden="false"
+      id="n4cMenuItem"/>
+  </popup>
+</overlay>

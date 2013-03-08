@@ -1,0 +1,44 @@
+                    ___________________________________
+  
+                      4chanGrab Extention For Firefox
+                    ___________________________________
+
+
+AUTHORS AND CONTRIBUTORS
+================
+
+Author
+	AcIdrain1983 - https://github.com/acidrain1983/
+
+Original Author
+    Random Translator - http://www.geocities.ws/rtmanga/
+	
+Contributors
+    4chan Community
+
+ABOUT
+==================
+
+4chanGrab was developed by Random Translator to download images from 4chan, it has since been taking over by the community at large. I decided to go and modify 4chanGrab to support the newest versions of Firefox and 4chan's new API. This version is based off 1.3 that has been floating around.
+
+CONTRIBUTE
+==================
+
+As I know there are a lot of versions of 4chanGrab floating around the net feel free to fork this and submit a pull request, I will try to review any pull request within 48 hours or at least reply.
+
+DOWNLOAD
+========================
+
+Latest version is available on github at:
+    - https://raw.github.com/acidrain1983/4chanGrab/master/4chanGrab.xpi
+
+CHANGE LOG
+==================
+
+Version 2.0:
+- Initital commit to Github
+- Updated extention to use 4chan's new json API instead of scraping their html, will no longer break on html changes
+- Updated downloading code to fix error about privacy, and enable downloading in private browsing mode
+- This version should support all the lattest versions of Firefox, and support for future versions up until version 30
+Version 1.x:
+- Any changes made prior to Version 2.0 was by Random Translator or the community.
