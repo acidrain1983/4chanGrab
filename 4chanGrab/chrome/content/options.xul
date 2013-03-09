@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+ 
+<prefwindow 
+     title="4chanGrab Preferences"
+     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+ 
+	<prefpane label="4chanGrab Preferences">
+		<preferences>
+			<preference id="4chanGrab-autoUpdate" name="extensions.4changrab.autoUpdate" type="bool"/>
+			<preference id="4chanGrab-autoClose" name="extensions.4changrab.autoClose" type="bool"/>
+			<preference id="4chanGrab-replaceIllegalCharacters" name="extensions.4changrab.replaceIllegalCharacters" type="bool"/>
+			<preference id="4chanGrab-showAlertOnCompletion" name="extensions.4changrab.showAlertOnCompletion" type="bool"/>
+			<preference id="4chanGrab-pathsToRemember" name="extensions.4changrab.pathsToRemember" type="string"/>
+			<preference id="4chanGrab-pathHistoryItems" name="extensions.4changrab.pathHistoryItems" type="string"/>
+		</preferences>
+		
+		<groupbox>
+			<caption label="Settings"/>
+			<grid>
+				<columns>
+					<column flex="4"/>
+					<column flex="1"/>
+				</columns>
+				<rows>
+					<row>
+						<label control="autoUpdate" value="Auto Update"/>
+						<checkbox id="autoUpdate" preference="4chanGrab-autoUpdate"/>
+					</row>
+					<row>
+						<label control="autoClose" value="Close After 404"/>
+						<checkbox id="autoClose" preference="4chanGrab-autoClose"/>
+					</row>
+					<row>
+						<label control="replaceIllegalCharacters" value="Replace Illegal Characters"/>
+						<checkbox id="replaceIllegalCharacters" preference="4chanGrab-replaceIllegalCharacters"/>
+					</row>
+					<row>
+						<label control="showAlertOnCompletion" value="Show Alert on Completion"/>
+						<checkbox id="showAlertOnCompletion" preference="4chanGrab-showAlertOnCompletion"/>
+					</row>
+					<row>
+						<label control="pathsToRemember" value="Recent Paths to Remember"/>
+						<textbox id="pathsToRemember" integer="true" width="20px" preference="4chanGrab-pathsToRemember"/>
+					</row>
+					<row>
+						<label control="pathHistoryItems" value="Path History"/>
+						<textbox id="pathHistoryItems" width="200px" preference="4chanGrab-pathHistoryItems"/>
+					</row>
+				</rows>
+			</grid>
+		</groupbox>	
+		
+	</prefpane>
+ 
+</prefwindow>
+
+
+
+
