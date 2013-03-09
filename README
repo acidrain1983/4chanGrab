@@ -10,6 +10,9 @@ AUTHORS AND CONTRIBUTORS
 Author
 	AcIdrain1983 - https://github.com/acidrain1983/
 
+Major Contributor
+	Josh VH
+	
 Original Author
     Random Translator - http://www.geocities.ws/rtmanga/
 	
@@ -19,7 +22,7 @@ Contributors
 ABOUT
 ==================
 
-4chanGrab was developed by Random Translator to download images from 4chan, it has since been taking over by the community at large. I decided to go and modify 4chanGrab to support the newest versions of Firefox and 4chan's new API. This version is based off 1.3 that has been floating around.
+4chanGrab was developed by Random Translator to download images from 4chan, it has since been taking over by the community at large. I decided to go and modify 4chanGrab to support the newest versions of Firefox and 4chan's new API. This version is based off 4chanGrab 1.8.2 by Josh VH.
 
 CONTRIBUTE
 ==================
@@ -35,10 +38,22 @@ Latest version is available on github at:
 CHANGE LOG
 ==================
 
+Version 2.0.1:
+	- Updated code to be based off of 4chanGrab 1.8.2 by Josh VH.
+	- Removed/Disabled any "Auto update" buttons or preferences, they did nothing so no point in having the options.
+	- Added a "Automatically close window on successful download" preference, by default it will automaticlly close the window on successful download
 Version 2.0:
-- Initital commit to Github
-- Updated extention to use 4chan's new json API instead of scraping their html, will no longer break on html changes
-- Updated downloading code to fix error about privacy, and enable downloading in private browsing mode
-- This version should support all the lattest versions of Firefox, and support for future versions up until version 30
+	- Initital commit to Github
+	- Based off of 1.3 that was floating around
+	- Updated extention to use 4chan's new json API instead of scraping their html, will no longer break on html changes
+	- Updated downloading code to fix error about privacy, and enable downloading in private browsing mode
+	- This version should support all the lattest versions of Firefox, and support for future versions up until version 30
 Version 1.x:
-- Any changes made prior to Version 2.0 was by Random Translator or the community.
+	- Any changes made prior to Version 2.0 was by Random Translator or the community.
+
+TO DO
+=========
+
+I've been thinking of stuff that would be nice to have:
+	- Automaticlly create (by option) folders based on the board and thread title (IE. <base folder>/a/Neko Thread/)
+	- [4chan using API only] If the file exists, check the filesize and md5 (if filesize matches) prior to showing the window and automaticlly uncheck the files if they match

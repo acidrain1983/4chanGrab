@@ -5,21 +5,26 @@ function n4cContext() {
   try {
     var doc = document.commandDispatcher.focusedWindow.document;
     var loc = doc.location.toString();
-    //if(/\/[0-9]*\.html(#.*)?$/.test(loc)) {
-	if(/\/[0-9]*(|\.html(#.*)?)$/.test(loc)) {
+    // The first regex is to allow n4cStyle use the reply pages
+    // so it can get the id and request the json API. Even if the HTML changes
+    // the downloads will still work. Hell, Who uses grab on the board listings?!
+    if (/^http[s]?:\/\/.*.4chan.org\/.*\/res\/[0-9]+/.test(loc)) {
+      n4cStyle = 3;
+    }
+    else if(/\/[0-9]*(|\.html(#.*)?)$/.test(loc)) {
       n4cStyle = 1;
     }
     else if(/^http:\/\/[^\/]*not4chanserver.org\/.*\?t=[0-9]+/.test(loc)) {
       n4cStyle = 2;
     }
-	else if(/^http:\/\/.*.4chan.org\/.*\/[0-9]+/.test(loc)) {
+    else if(/^http[s]?:\/\/.*.4chan.org\/.*\/[0-9]+/.test(loc)) {
       n4cStyle = 1;
     }
-	else if(/^http:\/\/4chanarchive.org\/.*\/.*\?thread_id=[0-9]+/.test(loc)) {
+    else if(/^http:\/\/4chanarchive.org\/.*\/.*\?thread_id=[0-9]+/.test(loc)) {
       n4cStyle = 1;
     }
     else {
-	  throw 1;
+      throw 1;
     }
     e.setAttribute("hidden", false);
     e.previousSibling.setAttribute("hidden", false);
@@ -31,10 +36,52 @@ function n4cContext() {
   }
 }
 
+//Code to use the API to fetch posts list for the filenames instead of the HTML
+function n4cGrabAPICall() {
+    var doc = document.commandDispatcher.focusedWindow.document;
+    var loc = doc.location.toString();
+    var match = loc.match(/^(http[s]?):\/\/.*.4chan.org\/(.*)\/res\/([0-9]+)/i);
+    var url = match[1] + '://api.4chan.org/' + match[2] + '/res/' + match[3] + '.json'; //http://api.4chan.org/x/res/123456789.json
+    function reqListener () {
+        var jsObject = JSON.parse(this.responseText);
+        if (typeof jsObject == 'undefined' || jsObject == null || typeof jsObject.posts == 'undefined' || jsObject.posts == null || jsObject.posts.length == 0) {
+            alert("No images found!");
+            return;
+        }
+        var posts = jsObject.posts;
+        var urls = new Array();
+        var names = new Array();
+        
+        for (i in posts){
+            var post = jsObject.posts[i];
+            //We only want posts with a filename, obviously
+            if (typeof post.filename == 'string') {
+                urls.push(match[1] + '://images.4chan.org/' + match[2] + '/src/' + post.tim + post.ext);
+                names.push(post.filename + post.ext);
+            }
+        }
+        
+        if(urls.length > 0) {
+            window.openDialog("chrome://4chanGrab/content/4chanGrab.xul", "_blank", "chrome,resizable", urls, names);
+        }
+        else {
+            alert("No images found!");
+        }
+    };
 
+    var oReq = new XMLHttpRequest();
+    oReq.onload = reqListener;
+    oReq.open("GET", url, true);
+    oReq.send();
+}
 
 
 function n4cGrab() {
+  if (n4cStyle == 3) {
+    n4cGrabAPICall();
+    return;
+  }
+  //Backwards compatibility code
   var urls = new Array();
   var names = new Array();
   var doc = document.commandDispatcher.focusedWindow.document;
@@ -80,15 +127,15 @@ function n4cGrab() {
       if(title == "") {
         title = href.replace(/.*\//, "");
       }
-      urls[urls.length] = href;
-      names[names.length] = title;
+      urls.push(href);
+      names.push(title);
     }
     if(urls.length > 0) {
       break;
     }
   }
   if(urls.length > 0) {
-    window.openDialog("chrome://4chanGrab/content/4chanGrab.xul","_blank", "chrome,resizable", urls, names);
+    window.openDialog("chrome://4chanGrab/content/4chanGrab.xul", "_blank", "chrome,resizable", urls, names);
   }
   else {
     alert("No images found!");

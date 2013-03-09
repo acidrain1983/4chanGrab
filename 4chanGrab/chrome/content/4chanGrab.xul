@@ -15,7 +15,6 @@
   	<hbox align="left">
 		<label value="Images Found:"/>
 		<spacer width="210"/>
-		<checkbox id="autoUpdate" label="Auto Update" value="true"/>  
 	</hbox>
   <listbox id="n4cListbox" rows="15" suppressionselect="true" editable="true">
   </listbox>

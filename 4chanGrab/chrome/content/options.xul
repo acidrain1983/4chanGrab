@@ -7,8 +7,7 @@
  
 	<prefpane label="4chanGrab Preferences">
 		<preferences>
-			<preference id="4chanGrab-autoUpdate" name="extensions.4changrab.autoUpdate" type="bool"/>
-			<preference id="4chanGrab-autoClose" name="extensions.4changrab.autoClose" type="bool"/>
+			<preference id="4chanGrab-autoCloseOnFinish" name="extensions.4changrab.autoCloseOnFinish" type="bool"/>
 			<preference id="4chanGrab-replaceIllegalCharacters" name="extensions.4changrab.replaceIllegalCharacters" type="bool"/>
 			<preference id="4chanGrab-showAlertOnCompletion" name="extensions.4changrab.showAlertOnCompletion" type="bool"/>
 			<preference id="4chanGrab-pathsToRemember" name="extensions.4changrab.pathsToRemember" type="string"/>
@@ -24,12 +23,8 @@
 				</columns>
 				<rows>
 					<row>
-						<label control="autoUpdate" value="Auto Update"/>
-						<checkbox id="autoUpdate" preference="4chanGrab-autoUpdate"/>
-					</row>
-					<row>
-						<label control="autoClose" value="Close After 404"/>
-						<checkbox id="autoClose" preference="4chanGrab-autoClose"/>
+						<label control="autoCloseOnFinish" value="Automatically close window on successful download"/>
+						<checkbox id="autoCloseOnFinish" preference="4chanGrab-autoCloseOnFinish"/>
 					</row>
 					<row>
 						<label control="replaceIllegalCharacters" value="Replace Illegal Characters"/>

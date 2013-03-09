@@ -6,8 +6,9 @@ var illegalCharacters = /\$|\?|\[|\]|\/|\\|\=|\+|\<|\>|\:|\;|\"|,|\*|\||\$/g; //
 
 // Load Preferences
 var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
-var autoUpdate = prefManager.getBoolPref("extensions.4changrab.autoUpdate");
-var autoClose = prefManager.getBoolPref("extensions.4changrab.autoClose");
+//var autoUpdate = prefManager.getBoolPref("extensions.4changrab.autoUpdate");
+//var autoClose = prefManager.getBoolPref("extensions.4changrab.autoClose");
+var autoCloseOnFinish = prefManager.getBoolPref("extensions.4changrab.autoCloseOnFinish");
 var replaceIllegalCharacters = prefManager.getBoolPref("extensions.4changrab.replaceIllegalCharacters");
 var showAlertOnCompletion = prefManager.getBoolPref("extensions.4changrab.showAlertOnCompletion");
 var pathsToRemember = prefManager.getCharPref("extensions.4changrab.pathsToRemember");
@@ -327,7 +328,9 @@ var files = {
 				value += "Success " + n4cNumDone + " saved";
 				alert(value);
 			}
-			window.close();
+			if (autoCloseOnFinish) {
+				window.close();
+			}
 		}
 		else {
 			var button = document.getElementById("n4cChange");
@@ -353,8 +356,8 @@ var chanGrab = {
 		//preferences.init();
 		pathHistory.load();
 		fileList.load();
-		var autoUpdateChk = document.getElementById("autoUpdate");
-		autoUpdateChk.setAttribute("checked",autoUpdate);
+		//var autoUpdateChk = document.getElementById("autoUpdate");
+		//autoUpdateChk.setAttribute("checked",autoUpdate);
 	},
 	shutdown : function() {
 		
