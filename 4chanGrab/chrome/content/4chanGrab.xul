@@ -12,22 +12,25 @@
 	
 	<script src="4chanGrab.js"/>
 	<description></description>
-  	<hbox align="left">
+  <hbox align="left">
 		<label value="Images Found:"/>
 		<spacer width="210"/>
 	</hbox>
+
   <listbox id="n4cListbox" rows="15" suppressionselect="true" editable="true">
   </listbox>
+
   <separator orient="horizontal" class="groove"/>
+
   <vbox>
     <label value="Save To Folder:"/>
-	<menulist id="n4cFolder" value="" type="autocomplete" autocompletesearch="file" persist="value" editable="true">
-	    <menupopup id="menuHistory">
-			
-	    </menupopup>
+	  <menulist id="n4cFolder" value="" type="autocomplete" autocompletesearch="file" persist="value" editable="true">
+	  <menupopup id="menuHistory"></menupopup>
 	</menulist>
   </vbox>
+
   <separator orient="horizontal" class="groove"/>
+
   <hbox>
     <spacer flex="0"/>
     <button id="n4cToggle" label="Toggle" oncommand="fileList.toggle();"/>
@@ -36,7 +39,13 @@
     <button id="n4cSave" label="Save" oncommand="files.save();"/>
     <button label="Cancel" oncommand="window.close();"/>
   </hbox>
+  <hbox>
+    <label value="Append thread title to save folder:" />
+    <textbox id="n4cFolderTitle" width="125px" value="" flex="1" />
+    <checkbox id="n4cUseFolder" value="1" label="Use title as folder (created if needed)"/>
+  </hbox>
   <separator orient="horizontal" class="groove"/>
+
   <hbox>
     <label value="Progress:"/>
     <label id="n4cStatus" value=""/>

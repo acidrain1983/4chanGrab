@@ -10,30 +10,24 @@
 			<preference id="4chanGrab-autoCloseOnFinish" name="extensions.4changrab.autoCloseOnFinish" type="bool"/>
 			<preference id="4chanGrab-replaceIllegalCharacters" name="extensions.4changrab.replaceIllegalCharacters" type="bool"/>
 			<preference id="4chanGrab-showAlertOnCompletion" name="extensions.4changrab.showAlertOnCompletion" type="bool"/>
+			<preference id="4chanGrab-checkThreadTitle" name="extensions.4changrab.checkThreadTitle" type="bool"/>
 			<preference id="4chanGrab-pathsToRemember" name="extensions.4changrab.pathsToRemember" type="string"/>
 			<preference id="4chanGrab-pathHistoryItems" name="extensions.4changrab.pathHistoryItems" type="string"/>
 		</preferences>
 		
 		<groupbox>
 			<caption label="Settings"/>
+			<checkbox id="autoCloseOnFinish" label="Automatically close window on successful download" preference="4chanGrab-autoCloseOnFinish"/>
+			<checkbox id="replaceIllegalCharacters" label="Replace Illegal Characters" preference="4chanGrab-replaceIllegalCharacters"/>
+			<checkbox id="showAlertOnCompletion" label="Show Alert on Completion" preference="4chanGrab-showAlertOnCompletion"/>
+			<checkbox id="checkThreadTitle" label="Check title folder option by default" preference="4chanGrab-checkThreadTitle"/>
+
 			<grid>
 				<columns>
 					<column flex="4"/>
 					<column flex="1"/>
 				</columns>
 				<rows>
-					<row>
-						<label control="autoCloseOnFinish" value="Automatically close window on successful download"/>
-						<checkbox id="autoCloseOnFinish" preference="4chanGrab-autoCloseOnFinish"/>
-					</row>
-					<row>
-						<label control="replaceIllegalCharacters" value="Replace Illegal Characters"/>
-						<checkbox id="replaceIllegalCharacters" preference="4chanGrab-replaceIllegalCharacters"/>
-					</row>
-					<row>
-						<label control="showAlertOnCompletion" value="Show Alert on Completion"/>
-						<checkbox id="showAlertOnCompletion" preference="4chanGrab-showAlertOnCompletion"/>
-					</row>
 					<row>
 						<label control="pathsToRemember" value="Recent Paths to Remember"/>
 						<textbox id="pathsToRemember" integer="true" width="20px" preference="4chanGrab-pathsToRemember"/>

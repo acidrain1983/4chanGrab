@@ -11,6 +11,7 @@ var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getSe
 var autoCloseOnFinish = prefManager.getBoolPref("extensions.4changrab.autoCloseOnFinish");
 var replaceIllegalCharacters = prefManager.getBoolPref("extensions.4changrab.replaceIllegalCharacters");
 var showAlertOnCompletion = prefManager.getBoolPref("extensions.4changrab.showAlertOnCompletion");
+var checkThreadTitle = prefManager.getBoolPref("extensions.4changrab.checkThreadTitle");
 var pathsToRemember = prefManager.getCharPref("extensions.4changrab.pathsToRemember");
 //var pathHistoryItemsTemp = prefManager.getCharPref("extensions.4changrab.pathHistoryItems");
 
@@ -193,22 +194,22 @@ var fileList = {
 	},
 	reNumber : function() {
 		var prefix = prompt("What would you like to rename the files to?","grab");
-  		if(prefix != "" && prefix != null) { 
-	  		var box = document.getElementById("n4cListbox");
-	  		var names = window.arguments[1];
-	  		for(var i = 0; i < names.length; ++i) {
-	    		var item = document.getElementById("n4cLi" + i);
-	    		if(item.getAttribute("disabled")) {
-	      			continue;
-	    		}
-	    		var ext = names[i].replace(/.*\./, ".")
-	    		var name = "0000" + (i + 1);
-	    		name =  prefix + name.substr(-4) + ext;
-	    		window.arguments[1][i] = name;
-	    		item.setAttribute("label", name);
-	  		}
-	  		//window.sizeToContent();
-  		}
+		if(prefix != "" && prefix != null) { 
+			var box = document.getElementById("n4cListbox");
+			var names = window.arguments[1];
+			for(var i = 0; i < names.length; ++i) {
+				var item = document.getElementById("n4cLi" + i);
+				if(item.getAttribute("disabled")) {
+						continue;
+				}
+				var ext = names[i].replace(/.*\./, ".")
+				var name = "0000" + (i + 1);
+				name =  prefix + name.substr(-4) + ext;
+				window.arguments[1][i] = name;
+				item.setAttribute("label", name);
+			}
+			//window.sizeToContent();
+		}
 	}
 }
 
@@ -232,6 +233,19 @@ var files = {
 		var value = document.getElementById("n4cFolder").value;
 		label.setAttribute("value", value);
 		return value;
+	},
+	getSavePathWithTitle: function(dir){
+		var nsILocalFile = Components.interfaces.nsILocalFile;
+		var aFile = Components.classes["@mozilla.org/file/local;1"].createInstance(nsILocalFile);
+		aFile.initWithPath(files.getSavePath());
+		aFile.append(dir);
+		if (!aFile.exists()) {
+			var res = aFile.createUnique(Components.interfaces.nsIFile.DIRECTORY_TYPE, nsILocalFile.PERMS_DIRECTORY /*0644*/);
+			if (res != nsILocalFile.returnOK) {
+				return false;
+			}
+		}
+		return true;
 	},
 	setSavePath: function(){
 		//n4cFolder
@@ -287,6 +301,14 @@ var files = {
 	},
 	saveFile: function(index){
 		//n4cSaveFile(index)
+		var n4cUseFolder = document.getElementById("n4cUseFolder");
+		var useCustomFolder = n4cUseFolder.getAttribute("checked");
+
+		var n4cFolderTitle = document.getElementById("n4cFolderTitle").value;
+		if (n4cFolderTitle == '') {
+			useCustomFolder = false;
+		}
+
 		var urls = window.arguments[0];
 		var names = window.arguments[1];
 		while (index < n4cPick.length) {
@@ -300,6 +322,12 @@ var files = {
 			var nsILocalFile = Components.interfaces.nsILocalFile;
 			var fp = Components.classes["@mozilla.org/file/local;1"].createInstance(nsILocalFile);
 			fp.initWithPath(files.getSavePath());
+			if (useCustomFolder) {
+				var newPath = files.getSavePathWithTitle(n4cFolderTitle);
+				if (newPath) {
+					fp.append(n4cFolderTitle);
+				}
+			}
 			fp.append(name);
 			if (fp.exists()) {
 				item.removeAttribute("disabled");
@@ -315,11 +343,21 @@ var files = {
 			var nsIWebBrowserPersist = Components.interfaces.nsIWebBrowserPersist;
 			var persist = Components.classes['@mozilla.org/embedding/browser/nsWebBrowserPersist;1'].createInstance(nsIWebBrowserPersist);
 			persist.progressListener = new n4cListener(index);
-            try {
-			    persist.saveURI(uri, null, null, null, null, fp, null);
-            } catch (e) {
-                persist.saveURI(uri, null, null, null, null, fp);
-            }
+
+			var nsILoadContext = null;
+			try {
+				// with persist flags if desired
+				const flags = nsIWebBrowserPersist.PERSIST_FLAGS_REPLACE_EXISTING_FILES;
+				persist.persistFlags = flags | nsIWebBrowserPersist.PERSIST_FLAGS_FROM_CACHE;
+				Components.utils.import("resource://gre/modules/PrivateBrowsingUtils.jsm");
+
+				var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator);
+				var win = wm.getMostRecentWindow("navigator:browser");
+				nsILoadContext = PrivateBrowsingUtils.getPrivacyContextFromWindow(win);
+			}
+			catch(err) {}
+
+			persist.saveURI(uri, null, null, null, null, fp, nsILoadContext);
 			return;
 		}
 		var value = "4chan grab: ";
@@ -358,6 +396,14 @@ var chanGrab = {
 		fileList.load();
 		//var autoUpdateChk = document.getElementById("autoUpdate");
 		//autoUpdateChk.setAttribute("checked",autoUpdate);
+
+		var threadTitle = window.arguments[2];
+		threadTitle = threadTitle.replace(illegalCharacters, "");
+		document.getElementById("n4cFolderTitle").value = threadTitle;
+
+		if (threadTitle != '' && checkThreadTitle) {
+			document.getElementById("n4cUseFolder").setAttribute("checked", true);
+		}
 	},
 	shutdown : function() {
 		

@@ -20,7 +20,7 @@ function n4cContext() {
     else if(/^http[s]?:\/\/.*.4chan.org\/.*\/[0-9]+/.test(loc)) {
       n4cStyle = 1;
     }
-    else if(/^http:\/\/4chanarchive.org\/.*\/.*\?thread_id=[0-9]+/.test(loc)) {
+    else if (/^http:\/\/(.*\.)?chanarchive.org\/.*\/.*\/.*\/.*/.test(loc)) {
       n4cStyle = 1;
     }
     else {
@@ -37,7 +37,7 @@ function n4cContext() {
 }
 
 //Code to use the API to fetch posts list for the filenames instead of the HTML
-function n4cGrabAPICall() {
+function n4cGrabAPICall(threadSubject) {
     var doc = document.commandDispatcher.focusedWindow.document;
     var loc = doc.location.toString();
     var match = loc.match(/^(http[s]?):\/\/.*.4chan.org\/(.*)\/res\/([0-9]+)/i);
@@ -62,7 +62,7 @@ function n4cGrabAPICall() {
         }
         
         if(urls.length > 0) {
-            window.openDialog("chrome://4chanGrab/content/4chanGrab.xul", "_blank", "chrome,resizable", urls, names);
+            window.openDialog("chrome://4chanGrab/content/4chanGrab.xul", "_blank", "chrome,resizable", urls, names, threadSubject);
         }
         else {
             alert("No images found!");
@@ -77,16 +77,9 @@ function n4cGrabAPICall() {
 
 
 function n4cGrab() {
-  if (n4cStyle == 3) {
-    n4cGrabAPICall();
-    return;
-  }
-  //Backwards compatibility code
-  var urls = new Array();
-  var names = new Array();
   var doc = document.commandDispatcher.focusedWindow.document;
   var links;
-  if(n4cStyle == 1) {
+  if(n4cStyle == 1 || n4cStyle == 3) {
     links = doc.getElementsByTagName("span");
   }
   else if(n4cStyle == 2) {
@@ -95,6 +88,30 @@ function n4cGrab() {
   else {
     links = [];
   }
+  var threadSubject = '';
+  var cnames = ["subject"];
+
+  subject:
+  for (var j = 0; j < links.length; ++j) {
+    var cname = links[j].className;
+    for (var i = 0; i < cnames.length; ++i) {
+        if(cname != cnames[i]) {
+          continue;
+        }
+        threadSubject = links[j].innerHTML;
+        break subject;
+    }
+  }
+
+  if (n4cStyle == 3) {
+    n4cGrabAPICall(threadSubject);
+    return;
+  }
+
+  //Backwards compatibility code
+  var urls = new Array();
+  var names = new Array();
+
   var cnames = ["filesize", "orange", "fileText"];
   for(var i = 0; i < cnames.length; ++i) {
     for(var j = 0; j < links.length; ++j) {
@@ -135,7 +152,7 @@ function n4cGrab() {
     }
   }
   if(urls.length > 0) {
-    window.openDialog("chrome://4chanGrab/content/4chanGrab.xul", "_blank", "chrome,resizable", urls, names);
+    window.openDialog("chrome://4chanGrab/content/4chanGrab.xul", "_blank", "chrome,resizable", urls, names, threadSubject);
   }
   else {
     alert("No images found!");

@@ -38,6 +38,12 @@ Latest version is available on github at:
 CHANGE LOG
 ==================
 
+Version 2.0.2:
+	- Fixed download code that didn't get carried over from Version 2.0 that was associated with private browsing mode
+	- Cleaned up the options dialog, making it a bit more readable
+	- Replaced 4chanarchive.org with chanarchive.org
+	- Added the ability to automatically create a folder in your save path based on the subject of the thread and use it for files, You can manually type in a custom folder name if you so wish
+	- Added default option for checkbox that enables the folder based on the subject
 Version 2.0.1:
 	- Updated code to be based off of 4chanGrab 1.8.2 by Josh VH.
 	- Removed/Disabled any "Auto update" buttons or preferences, they did nothing so no point in having the options.
