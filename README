@@ -38,6 +38,11 @@ Latest version is available on github at:
 CHANGE LOG
 ==================
 
+Version 2.0.3:
+	- Implemented checking of existing files with the MD5 sum (Using Webworkers to do the work in the background) if they match, the file is disabled
+	- Recheck files button was added to allow you to recheck the files such as when you change the folder name, change the title field, or rename the files
+	- Added option to disable the automatic checking of existing files, you can check the files at anytime by clicking the "Recheck Files" button
+	- Tweaked the regex to match more boards
 Version 2.0.2:
 	- Fixed download code that didn't get carried over from Version 2.0 that was associated with private browsing mode
 	- Cleaned up the options dialog, making it a bit more readable
@@ -61,5 +66,5 @@ TO DO
 =========
 
 I've been thinking of stuff that would be nice to have:
-	- Automaticlly create (by option) folders based on the board and thread title (IE. <base folder>/a/Neko Thread/)
-	- [4chan using API only] If the file exists, check the filesize and md5 (if filesize matches) prior to showing the window and automaticlly uncheck the files if they match
+	- Automaticlly create (by option) folders based on the board and thread title (IE. <base folder>/a/Neko Thread/) [Implemented without board folder in v2.0.2]
+	- [Boards with md5 or 4chan API] If the file exists, check the filesize and md5 (if filesize matches) prior to showing the window and automaticlly uncheck the files if they match [Implemented in v2.0.3]

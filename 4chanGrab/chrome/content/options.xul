@@ -11,6 +11,7 @@
 			<preference id="4chanGrab-replaceIllegalCharacters" name="extensions.4changrab.replaceIllegalCharacters" type="bool"/>
 			<preference id="4chanGrab-showAlertOnCompletion" name="extensions.4changrab.showAlertOnCompletion" type="bool"/>
 			<preference id="4chanGrab-checkThreadTitle" name="extensions.4changrab.checkThreadTitle" type="bool"/>
+			<preference id="4chanGrab-checkFiles" name="extensions.4changrab.checkFiles" type="bool"/>
 			<preference id="4chanGrab-pathsToRemember" name="extensions.4changrab.pathsToRemember" type="string"/>
 			<preference id="4chanGrab-pathHistoryItems" name="extensions.4changrab.pathHistoryItems" type="string"/>
 		</preferences>
@@ -21,6 +22,7 @@
 			<checkbox id="replaceIllegalCharacters" label="Replace Illegal Characters" preference="4chanGrab-replaceIllegalCharacters"/>
 			<checkbox id="showAlertOnCompletion" label="Show Alert on Completion" preference="4chanGrab-showAlertOnCompletion"/>
 			<checkbox id="checkThreadTitle" label="Check title folder option by default" preference="4chanGrab-checkThreadTitle"/>
+			<checkbox id="checkFiles" label="Check files MD5 (if available) automatically" preference="4chanGrab-checkFiles"/>
 
 			<grid>
 				<columns>

@@ -37,6 +37,7 @@
     <button id="n4cNumber" label="Renumber" oncommand="fileList.reNumber();"/>
     <button id="n4cChange" label="Folder..." oncommand="files.setSavePath();"/>
     <button id="n4cSave" label="Save" oncommand="files.save();"/>
+    <button id="n4ccheckFiles" label="Recheck Files" oncommand="files.checkFiles();"/>
     <button label="Cancel" oncommand="window.close();"/>
   </hbox>
   <hbox>

@@ -11,7 +11,10 @@ function n4cContext() {
     if (/^http[s]?:\/\/.*.4chan.org\/.*\/res\/[0-9]+/.test(loc)) {
       n4cStyle = 3;
     }
-    else if(/\/[0-9]*(|\.html(#.*)?)$/.test(loc)) {
+    else if (/gentoochan\.org\/.*/.test(loc)) {
+      n4cStyle = 4;
+    }
+    else if(/\/[0-9]*(|\.htm[l]?(#.*)?)$/.test(loc)) {
       n4cStyle = 1;
     }
     else if(/^http:\/\/[^\/]*not4chanserver.org\/.*\?t=[0-9]+/.test(loc)) {
@@ -51,6 +54,7 @@ function n4cGrabAPICall(threadSubject) {
         var posts = jsObject.posts;
         var urls = new Array();
         var names = new Array();
+        var extraData = new Array();
         
         for (i in posts){
             var post = jsObject.posts[i];
@@ -58,11 +62,12 @@ function n4cGrabAPICall(threadSubject) {
             if (typeof post.filename == 'string') {
                 urls.push(match[1] + '://images.4chan.org/' + match[2] + '/src/' + post.tim + post.ext);
                 names.push(post.filename + post.ext);
+                extraData.push({ 'md5': post.md5, 'filesize': post.fsize });
             }
         }
         
         if(urls.length > 0) {
-            window.openDialog("chrome://4chanGrab/content/4chanGrab.xul", "_blank", "chrome,resizable", urls, names, threadSubject);
+            window.openDialog("chrome://4chanGrab/content/4chanGrab.xul", "_blank", "chrome,resizable", urls, names, extraData, threadSubject);
         }
         else {
             alert("No images found!");
@@ -79,7 +84,7 @@ function n4cGrabAPICall(threadSubject) {
 function n4cGrab() {
   var doc = document.commandDispatcher.focusedWindow.document;
   var links;
-  if(n4cStyle == 1 || n4cStyle == 3) {
+  if(n4cStyle == 1 || n4cStyle == 3 || n4cStyle == 4) {
     links = doc.getElementsByTagName("span");
   }
   else if(n4cStyle == 2) {
@@ -89,7 +94,7 @@ function n4cGrab() {
     links = [];
   }
   var threadSubject = '';
-  var cnames = ["subject"];
+  var cnames = ["subject", "filetitle"];
 
   subject:
   for (var j = 0; j < links.length; ++j) {
@@ -98,9 +103,16 @@ function n4cGrab() {
         if(cname != cnames[i]) {
           continue;
         }
-        threadSubject = links[j].innerHTML;
-        break subject;
+
+        if (links[j].childElementCount == 0) {
+          threadSubject = links[j].innerHTML;
+          break subject;
+        }
     }
+  }
+
+  if (n4cStyle == 4) {
+    links = doc.getElementsByTagName("p");
   }
 
   if (n4cStyle == 3) {
@@ -111,8 +123,9 @@ function n4cGrab() {
   //Backwards compatibility code
   var urls = new Array();
   var names = new Array();
+  var extraData = new Array();
 
-  var cnames = ["filesize", "orange", "fileText"];
+  var cnames = ["filesize", "orange", "fileText", "fileinfo"];
   for(var i = 0; i < cnames.length; ++i) {
     for(var j = 0; j < links.length; ++j) {
       var cname = links[j].className;
@@ -122,6 +135,22 @@ function n4cGrab() {
       var href = "";
       var title = "";
       var children = links[j].childNodes;
+
+      var filesize_match = links[j].innerHTML.match(/-\((\d{1,}) KB\, \d{1,}x\d{1,},/);
+      var filesize = false;
+      var md5 = '';
+
+      try {
+        if (filesize_match.length == 2) {
+          filesize = filesize_match[1];
+        }
+
+        var elements = links[j].parentNode.parentNode.getElementsByClassName('ca_thumb');
+        if (elements.length > 0) {
+          md5 = elements.item(0).getAttribute('data-md5');
+        }
+      } catch(err) {}
+
       for(var k = 0; k < children.length; ++k) {
         var node = children.item(k);
         if(node.href) {
@@ -146,13 +175,14 @@ function n4cGrab() {
       }
       urls.push(href);
       names.push(title);
+      extraData.push({ 'md5': md5, 'filesize': filesize });
     }
     if(urls.length > 0) {
       break;
     }
   }
   if(urls.length > 0) {
-    window.openDialog("chrome://4chanGrab/content/4chanGrab.xul", "_blank", "chrome,resizable", urls, names, threadSubject);
+    window.openDialog("chrome://4chanGrab/content/4chanGrab.xul", "_blank", "chrome,resizable", urls, names, extraData, threadSubject);
   }
   else {
     alert("No images found!");
