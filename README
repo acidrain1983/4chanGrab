@@ -22,7 +22,7 @@ Contributors
 ABOUT
 ==================
 
-4chanGrab was developed by Random Translator to download images from 4chan, it has since been taking over by the community at large. I decided to go and modify 4chanGrab to support the newest versions of Firefox and 4chan's new API. This version is based off 4chanGrab 1.8.2 by Josh VH.
+4chanGrab (formerly known as not4chan grab) was developed by Random Translator to download images from 4chan, it has since been taking over by the community at large. I decided to go and modify 4chanGrab to support the newest versions of Firefox and 4chan's new API. This version is based off 4chanGrab 1.8.2 by Josh VH.
 
 CONTRIBUTE
 ==================
@@ -38,6 +38,13 @@ Latest version is available on github at:
 CHANGE LOG
 ==================
 
+Version 2.0.4:
+	- Fixed a height bug in the image dialog box
+	- Added a Check Files call to the title folder checkbox to auto check the files if the option is enabled
+	- Changed it so that it'll not disable the dialog box when all the files are MD5 matched and you click save or check files
+	- Misc bug fixes
+	- Added support for archive.foolz.us archives (no original filename support at the moment)
+	- Added Google Analytics call to track version usage, It'll track when you install/update the extention and when you bring up the dialog that has links to download
 Version 2.0.3:
 	- Implemented checking of existing files with the MD5 sum (Using Webworkers to do the work in the background) if they match, the file is disabled
 	- Recheck files button was added to allow you to recheck the files such as when you change the folder name, change the title field, or rename the files
@@ -68,3 +75,9 @@ TO DO
 I've been thinking of stuff that would be nice to have:
 	- Automaticlly create (by option) folders based on the board and thread title (IE. <base folder>/a/Neko Thread/) [Implemented without board folder in v2.0.2]
 	- [Boards with md5 or 4chan API] If the file exists, check the filesize and md5 (if filesize matches) prior to showing the window and automaticlly uncheck the files if they match [Implemented in v2.0.3]
+
+
+Unsupported Archive Sites
+=========
+
+I've been asked to add support for some archives such as archive.foolz.us which I have added but there are some archives such as archive.installgentoo.net which is pretty pointless to add because it links the original images back to the source website, unless they also store the original file like foolz does I won't be adding it and I will only add archive sites that stores the original source image. If you would like me to add support for a specific site, add a github ticket or reply to http://dis.4chan.org/read/img/1152271491 and I'll add it asap.

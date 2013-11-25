@@ -321,6 +321,10 @@ var files = {
 			label.setAttribute("value", fp.file.path);
 			label.setAttribute("label", fp.file.path);
 			label.value = fp.file.path;
+
+			if (checkFiles) {
+				files.checkFiles();
+			}
 			//window.sizeToContent();
 		}
 		////pathHistory.setPaths();
@@ -335,6 +339,11 @@ var files = {
 		}
 		pathHistory.save();
 		files.getPicks();
+
+		if (n4cPick.length == 0) {
+			return;
+		}
+
 		n4cNumDone = 0;
 		n4cNumFail = 0;
 		files.setStatus();
@@ -408,7 +417,17 @@ var files = {
 
 		files.getPicks();
 
+		if (n4cPick.length == 0) {
+			return;
+		}
+
 		n4cMd5Checker.init(0, false);
+	},
+
+	optioncheckFiles: function() {
+		if (checkFiles) {
+			files.checkFiles();
+		}
 	},
 
 	saveFile: function(index){

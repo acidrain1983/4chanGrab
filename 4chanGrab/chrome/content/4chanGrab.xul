@@ -6,7 +6,7 @@
 	title="4chan Grab" 
 	onload="chanGrab.load();"
 	width="405px"
-	height="480px"
+	height="540px"
 	persist="screenX screenY width height"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	
@@ -43,7 +43,7 @@
   <hbox>
     <label value="Append thread title to save folder:" />
     <textbox id="n4cFolderTitle" width="125px" value="" flex="1" />
-    <checkbox id="n4cUseFolder" value="1" label="Use title as folder (created if needed)"/>
+    <checkbox id="n4cUseFolder" value="1" label="Use title as folder (created if needed)" oncommand="files.optioncheckFiles();"/>
   </hbox>
   <separator orient="horizontal" class="groove"/>
 

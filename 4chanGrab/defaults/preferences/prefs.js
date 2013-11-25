@@ -7,3 +7,4 @@ pref("extensions.4changrab.checkThreadTitle", false);
 pref("extensions.4changrab.checkFiles", true);
 pref("extensions.4changrab.pathsToRemember", "10");
 pref("extensions.4changrab.pathHistoryItems", "");
+pref("extensions.4changrab.lastInstalledVersion", "");
