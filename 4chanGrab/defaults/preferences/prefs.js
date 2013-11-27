@@ -8,3 +8,7 @@ pref("extensions.4changrab.checkFiles", true);
 pref("extensions.4changrab.pathsToRemember", "10");
 pref("extensions.4changrab.pathHistoryItems", "");
 pref("extensions.4changrab.lastInstalledVersion", "");
+pref("extensions.4changrab.GASessionID", "0");
+pref("extensions.4changrab.GAFirstUse", "0");
+pref("extensions.4changrab.GAUsageCounter", 0);
+pref("extensions.4changrab.GALastUse", "0");

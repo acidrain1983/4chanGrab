@@ -546,6 +546,7 @@ var n4cMd5Checker = {
 			var extraData = extraDatas[pIndex];
 			var md5 = extraData.md5;
 			var filesize = extraData.filesize;
+			var size = extraData.size;
 			var item = document.getElementById("n4cLi" + pIndex);
 			if (md5 != '') {
 				var fp = files.getFileInstance(name, n4cFolderTitle, useCustomFolder, true);
@@ -559,6 +560,9 @@ var n4cMd5Checker = {
 						}
 					} else if (filesize != false) {
 						var file_size = Math.round( ( file.size / 1024) );
+						if (size === 'MB') {
+							file_size = Math.round( ( file_size / 1024) );
+						}
 						if (file_size == filesize) {
 							filesizematched = true;
 						}

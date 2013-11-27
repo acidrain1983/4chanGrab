@@ -24,6 +24,11 @@ ABOUT
 
 4chanGrab (formerly known as not4chan grab) was developed by Random Translator to download images from 4chan, it has since been taking over by the community at large. I decided to go and modify 4chanGrab to support the newest versions of Firefox and 4chan's new API. This version is based off 4chanGrab 1.8.2 by Josh VH.
 
+REQUESTS
+==================
+
+Requests can be submitted by creating a Github ticket, or ask anonymously by adding a reply to the following thread: http://dis.4chan.org/read/img/1152271491
+
 CONTRIBUTE
 ==================
 
@@ -38,6 +43,10 @@ Latest version is available on github at:
 CHANGE LOG
 ==================
 
+Version 2.0.5:
+	- Added support for all board types from http://archive.foolz.us/_/articles/credits/ (installgentoo is enabled due to the regex but beware missing files)
+	- Added support for original filenames on archive.foolz.us
+	- Fixed a bug where not all the files on foolz.us was checking the MD5 in instances when the filesize was 1MB or bigger
 Version 2.0.4:
 	- Fixed a height bug in the image dialog box
 	- Added a Check Files call to the title folder checkbox to auto check the files if the option is enabled
@@ -80,4 +89,4 @@ I've been thinking of stuff that would be nice to have:
 Unsupported Archive Sites
 =========
 
-I've been asked to add support for some archives such as archive.foolz.us which I have added but there are some archives such as archive.installgentoo.net which is pretty pointless to add because it links the original images back to the source website, unless they also store the original file like foolz does I won't be adding it and I will only add archive sites that stores the original source image. If you would like me to add support for a specific site, add a github ticket or reply to http://dis.4chan.org/read/img/1152271491 and I'll add it asap.
+I've been asked to add support for some archives such as archive.foolz.us which I have added but there are some archives such as archive.installgentoo.net which is pretty pointless to add because it links the original images back to the source website, unless they also store the original file like foolz does I won't be adding it and I will only add archive sites that stores the original source image. If you would like me to add support for a specific site see the requests sectinn above.
