@@ -63,6 +63,7 @@ function n4cGrabAPICall(threadSubject) {
     var match = loc.match(/^(http[s]?):\/\/.*.4chan.org\/(.*)\/res\/([0-9]+)/i);
     var url = match[1] + '://api.4chan.org/' + match[2] + '/res/' + match[3] + '.json'; //http://api.4chan.org/x/res/123456789.json
     function reqListener () {
+      if (this.readyState==4 && this.status==200) {
         var jsObject = JSON.parse(this.responseText);
         if (typeof jsObject == 'undefined' || jsObject == null || typeof jsObject.posts == 'undefined' || jsObject.posts == null || jsObject.posts.length == 0) {
             alert("No images found!");
@@ -90,6 +91,12 @@ function n4cGrabAPICall(threadSubject) {
         else {
             alert("No images found!");
         }
+      } else if (this.readyState==4 && this.status==404) {
+         if (confirm("The 4chan API returned an error, Would you like to try the old method for this post?")) {
+          n4cStyle = 1;
+          n4cGrab();
+        }
+      }
     };
 
     var oReq = new XMLHttpRequest();
@@ -102,50 +109,14 @@ function n4cGrabAPICall(threadSubject) {
 function n4cGrab() {
   var doc = document.commandDispatcher.focusedWindow.document;
   var links;
-  if(n4cStyle == 1 || n4cStyle == 3 || n4cStyle == 5) {
-    links = doc.getElementsByTagName("span");
-  }
-  else if(n4cStyle == 2) {
-    links = doc.getElementsByTagName("div");
-  }
-  else if (n4cStyle == 4) {
-   links = doc.getElementsByTagName("h2"); 
-  }
-  else {
-   links = [];
-  }
+  var urls = new Array();
+  var names = new Array();
+  var extraData = new Array();
   var threadSubject = '';
   var cnames = ["subject", "filetitle"];
 
-  if (n4cStyle == 4) {
-    cnames = ["post_title"];
-  }
-
-  subject:
-  for (var j = 0; j < links.length; ++j) {
-    var cname = links[j].className;
-    for (var i = 0; i < cnames.length; ++i) {
-        if(cname != cnames[i]) {
-          continue;
-        }
-
-        if (links[j].childElementCount == 0) {
-          threadSubject = links[j].innerHTML;
-          break subject;
-        }
-    }
-  }
-
-  if (n4cStyle == 3) {
-    n4cGrabAPICall(threadSubject);
-    return;
-  }
-
-  if (n4cStyle == 4) {
-    links = doc.getElementsByTagName("div");
-  }
-
   if (n4cStyle == 5) {
+    //KOMENTO based boards are different entirely
     links = [];
     var imageLinks = [];
 
@@ -158,6 +129,25 @@ function n4cGrab() {
         var threadImage = threadImages.item(j);
         if (threadImage.nodeName === 'DIV') {
           imageLinks.push(threadImage);
+
+          var subjectlinks = threadImages[j].getElementsByTagName("span");
+
+          if (subjectlinks && subjectlinks.length > 0) {
+            for (var s = 0; s < subjectlinks.length; ++s) {
+              var cname = subjectlinks[s].className;
+              subjectLink:
+              for (var i = 0; i < cnames.length; ++i) {
+                if(cname != cnames[i]) {
+                  continue;
+                }
+
+                if (subjectlinks[s].childElementCount == 0) {
+                  threadSubject = subjectlinks[s].innerHTML;
+                  break subjectLink;
+                }
+              }
+            }
+          }
         }
       }
 
@@ -167,14 +157,7 @@ function n4cGrab() {
       }
       links = imageLinks;
     }
-  }
 
-  //Backwards compatibility code
-  var urls = new Array();
-  var names = new Array();
-  var extraData = new Array();
-
-  if (n4cStyle == 5) {
     for(var j = 0; j < links.length; ++j) {
       var href = "";
       var title = "";
@@ -223,6 +206,57 @@ function n4cGrab() {
     }
   }
   else {
+    var subjectcontainerLinks = [];
+    //Now back to our regularly scheduled programming
+    if (n4cStyle == 1 || n4cStyle == 3) {
+      var el = doc.getElementsByClassName('opContainer');
+      if (el && el.length > 0) {
+        subjectcontainerLinks = el[0].getElementsByTagName("span");
+      }
+    }
+    else if(n4cStyle == 2) {
+      links = doc.getElementsByTagName("div");
+      subjectcontainerLinks = doc.getElementsByTagName("div");
+    }
+    else if (n4cStyle == 4) {
+     var el = doc.getElementsByClassName('post_data');
+     if (el && el.length > 0) {
+      subjectcontainerLinks = el[0].getElementsByTagName("h2");
+     }
+
+     links = doc.getElementsByTagName("div");
+     cnames = ["post_title"];
+    }
+    else {
+     links = [];
+    }
+
+    if (subjectcontainerLinks && subjectcontainerLinks.length > 0) {
+      for (var j = 0; j < subjectcontainerLinks.length; ++j) {
+        var cname = subjectcontainerLinks[j].className;
+        subject:
+        for (var i = 0; i < cnames.length; ++i) {
+          if(cname != cnames[i]) {
+            continue;
+          }
+
+          if (subjectcontainerLinks[j].childElementCount == 0) {
+            threadSubject = subjectcontainerLinks[j].innerHTML;
+            break subject;
+          }
+        }
+      }
+    }
+
+    if (n4cStyle == 3) {
+      n4cGrabAPICall(threadSubject);
+      return;
+    }
+
+    if (n4cStyle == 1) {
+      links = doc.getElementsByTagName("span");
+    }
+
     var cnames = ["filesize", "orange", "fileText", "fileinfo", "thread_image_box"];
     for(var i = 0; i < cnames.length; ++i) {
       for(var j = 0; j < links.length; ++j) {
