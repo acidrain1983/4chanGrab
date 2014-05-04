@@ -10,7 +10,7 @@ function n4cContext() {
     // The first regex is to allow n4cStyle use the reply pages
     // so it can get the id and request the json API. Even if the HTML changes
     // the downloads will still work. Hell, Who uses grab on the board listings?!
-    if (/^http[s]?:\/\/.*.4chan.org\/.*\/res\/[0-9]+/.test(loc)) {
+    if (/^http[s]?:\/\/.*.4chan.org\/.*\/(res|thread)\/[0-9]+/.test(loc)) {
       n4cStyle = 3;
     }
     else if (/\/.*\/thread\/[0-9]+/.test(loc)) {
@@ -60,8 +60,8 @@ function n4cContext() {
 function n4cGrabAPICall(threadSubject) {
     var doc = document.commandDispatcher.focusedWindow.document;
     var loc = doc.location.toString();
-    var match = loc.match(/^(http[s]?):\/\/.*.4chan.org\/(.*)\/res\/([0-9]+)/i);
-    var url = match[1] + '://api.4chan.org/' + match[2] + '/res/' + match[3] + '.json'; //http://api.4chan.org/x/res/123456789.json
+    var match = loc.match(/^(http[s]?):\/\/.*.4chan.org\/(.*)\/(res|thread)\/([0-9]+)/i);
+    var url = match[1] + '://api.4cdn.org/' + match[2] + '/' + match[3] + '/' + match[4] + '.json'; //http://api.4chan.org/x/res/123456789.json
     function reqListener () {
       if (this.readyState==4 && this.status==200) {
         var jsObject = JSON.parse(this.responseText);
@@ -76,9 +76,13 @@ function n4cGrabAPICall(threadSubject) {
         
         for (i in posts){
             var post = jsObject.posts[i];
+
+            //TODO: threadSubject also can be fetched from the first post, under post.sub
+            //We can check to see if threadSubject is empty and replace it,  but at the moment I see no need. Maybe for future reasons.
+
             //We only want posts with a filename, obviously
             if (typeof post.filename == 'string') {
-                urls.push(match[1] + '://images.4chan.org/' + match[2] + '/src/' + post.tim + post.ext);
+                urls.push(match[1] + '://i.4cdn.org/' + match[2] + '/' + post.tim + post.ext);
                 names.push(post.filename + post.ext);
                 extraData.push({ 'md5': post.md5, 'filesize': post.fsize });
             }

@@ -43,6 +43,11 @@ Latest version is available on github at:
 CHANGE LOG
 ==================
 
+Version 2.0.7:
+	- 4chan changed their page paths, replacing the standard /res/ location to /thread/ breaking the filenames. It normally would have worked without the API but they also changed the page layout also.
+	- Use the i.4cdn.org instead of images.4chan.org, and 4chan no longer uses /src/
+	- You can see all the changes here 4chan made here: http://blog.4chan.org/post/82477681005/upcoming-namespace-changes
+	- Changed the extention to support Firefox versions until Versions 50. The release cycle for FF releases 40 in the first 2 months of 2015, as no updates they have done in the past 20 versions have conflicted with this extention I highly doubt any of the future ones will. If there is one it would be fixed in a timely manner.
 Version 2.0.6:
 	- Fixed a bug where the subject for a reply would be identified as the thread title
 	- When using the 4chan API, if the API returns a 404 (thread has been deleted) you will have the option to revert to using the old page scraping method
